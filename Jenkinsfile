@@ -1,30 +1,33 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.11-slim'
+        }
+    }
 
     stages {
 
         stage('Checkout') {
             steps {
-                echo 'Cloning GitHub repository'
                 checkout scm
             }
         }
 
         stage('Python Version') {
             steps {
-                sh 'python3 --version || python --version'
+                sh 'python --version'
             }
         }
 
         stage('Run Application') {
             steps {
-                sh 'python3 app.py || python app.py'
+                sh 'python app.py'
             }
         }
 
         stage('Run Checks') {
             steps {
-                sh 'python3 check.py || python check.py'
+                sh 'python check.py'
             }
         }
     }
